@@ -2,7 +2,7 @@ from django.db import models
 from .Goal import Goal
 from .User import User
 from django.utils import timezone
-class feedback(models.Model):
+class Feedback(models.Model):
 
     content = models.TextField()
 
