@@ -6,9 +6,9 @@ from projexApp.views.Oauth import login_direct, check_login, Oauth2_Login, logou
 router = DefaultRouter()
 router.register(r"users", UserViewSet)
 router.register(r"projects", ProjectViewSet)
-router.register(r"tasks", ProjectViewSet)
-router.register(r"goals", ProjectViewSet)
-router.register(r"feedbacks", ProjectViewSet)
+router.register(r"tasks", TaskDetailViewSet)
+router.register(r"goals", GoalDetail)
+router.register(r"feedbacks", FeedbackDetailViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
