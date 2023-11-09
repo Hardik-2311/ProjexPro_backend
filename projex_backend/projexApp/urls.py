@@ -13,6 +13,6 @@ urlpatterns = [
     path("", check_login),
     path("login", login_direct),
     path("check_login", check_login),
-    path("oauth/", Oauth2_Login),
+    path("oauth2_login/", Oauth2_Login),
     path("logout", logout_direct),
 ]
