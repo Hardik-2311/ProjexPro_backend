@@ -1,44 +1,26 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from projexApp.models import *
 
-class UserAdmin(UserAdmin):
-    list_display = (
-        "email",
-        "name",
-        "enrolment_no",
-        "username",
-        "year",
-        "is_member",
-        "is_superuser",
-    )
-    list_filter = ("is_superuser", "is_member")
-    fieldsets = (
-        (None, {"fields": ("enrolment_no", "email", "username", "year", "password")}),
-        ("Permissions", {"fields": ("is_superuser", "is_member")}),
-    )
-    add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": (
-                    "email",
-                    "enrolment_no",
-                    "username",
-                    "year",
-                    "password1",
-                    "password2",
-                    "is_superuser",
-                    "is_member",
-                ),
-            },
-        ),
-    )
-    search_fields = ("email", "enrolment_no", "username")
-    ordering = ("enrolment_no",)
+class UserAdmin(BaseUserAdmin):
+    list_display = ('username', 'email', 'name', 'year', 'enrolment_no', 'is_Member', 'is_staff', 'is_superuser')
+    search_fields = ('username', 'email', 'name', 'enrolment_no')
+    list_filter = ('is_Member', 'is_staff', 'is_superuser')
+    ordering = ('enrolment_no',) 
 
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal Info', {'fields': ('name', 'year', 'email', 'enrolment_no', 'profile_pic')}),
+        ('Permissions', {'fields': ('is_Member', 'is_staff', 'is_superuser')}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2'),
+        }),
+    )
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Project)
