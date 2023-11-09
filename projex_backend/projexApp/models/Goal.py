@@ -3,7 +3,7 @@ from .User import User
 from .Task import Task
 
 
-class goal(models.Model):
+class Goal(models.Model):
     task_id = models.ForeignKey(
         Task,
         primary_key=False,
