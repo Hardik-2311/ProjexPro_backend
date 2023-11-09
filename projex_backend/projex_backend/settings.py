@@ -3,7 +3,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-7n%wl&1h&k%v(582b4n26s^t^e6su&^@gruv%75agxj50k@&qt"
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 # Application definition
 INSTALLED_APPS = [
     "channels",
@@ -30,7 +30,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-ROOT_URLCONF = "backend.urls"
+ROOT_URLCONF = "projex_backend.urls"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.BasicAuthentication",
@@ -53,7 +53,7 @@ TEMPLATES = [
         },
     },
 ]
-ASGI_APPLICATION = "projex_backend.asgi.application"
+ASGI_APPLICATION = "projex_backend.routing.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

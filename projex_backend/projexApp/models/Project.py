@@ -1,5 +1,5 @@
 from django.db import models
-from User import User
+from .User import User
 
 
 class Project(models.Model):
