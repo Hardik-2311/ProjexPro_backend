@@ -1,9 +1,11 @@
-from .UserSerializer import UserSerializer
-from projexApp.models import Project
 from rest_framework import serializers
-class ProjectModelSerializer(serializers.ModelSerializer):
-    project_members=UserSerializer(many=True)
+from projexApp.models import Project
+from .UserSerializer import UserSerializer
+
+class ProjectSerializer(serializers.ModelSerializer):
+    project_members = UserSerializer(many=True, read_only=True)
+
     class Meta:
         model = Project
-        fields = ['project_id','project_name','description','wiki','project_members','creator'] 
-        partial=True
+        fields = ['id', 'project_name', 'description', 'wiki', 'created_time', 'project_members', 'creator']
+        read_only_fields = ['id', 'created_time', 'project_members', 'creator']
