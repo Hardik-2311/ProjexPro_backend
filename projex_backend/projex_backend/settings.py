@@ -53,6 +53,8 @@ TEMPLATES = [
         },
     },
 ]
+WSGI_APPLICATION = 'projex_backend.wsgi.application'
+
 ASGI_APPLICATION = "projex_backend.routing.application"
 DATABASES = {
     "default": {
@@ -114,4 +116,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000']
 

@@ -18,7 +18,6 @@ class Goal(models.Model):
         on_delete=models.DO_NOTHING,
         related_name="goal_creator",
     )
-    assignees = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     due_date = models.DateField(
         auto_now=False,
         auto_now_add=False,

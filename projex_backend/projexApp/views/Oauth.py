@@ -45,6 +45,7 @@ def check_login(request):
 def Authentication(
     username, enrolment_number, name, year, email, is_Member, is_superuser
 ):
+    print("here")
     try:
         user = User.objects.get(username=username)
         return user
@@ -98,6 +99,7 @@ def Oauth2_Login(request):
             if i["role"] == "Maintainer":
                 is_Member = True
                 break
+        print("before going")
         if is_Member == True:
             try:
                 user = Authentication(
@@ -111,6 +113,7 @@ def Oauth2_Login(request):
                 )
                 print(user)
             except:
+                print("user doent created")
                 return Response("unable to create user")
             try:
                 login(request, user)
