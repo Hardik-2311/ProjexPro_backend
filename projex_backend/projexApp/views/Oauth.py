@@ -28,7 +28,7 @@ def login_direct(request):
 
 
 @api_view(["GET"])
-@permission_classes([])
+@permission_classes([AllowAny])
 def check_login(request):
     content = {"Logged_In": False}
     print(request.COOKIES)
@@ -66,7 +66,7 @@ def Authentication(
 
 @api_view(["GET"])
 @authentication_classes([])
-@permission_classes([])
+@permission_classes([AllowAny])
 def Oauth2_Login(request):
     try:
         auth_code = request.GET.get("code")
@@ -87,7 +87,7 @@ def Oauth2_Login(request):
             "https://channeli.in/open_auth/get_user_data/", headers=parameters
         )
         user_info = response.json()
-        username = user_info["username"]
+        username = user_info["person"]["fullName"]
         name = user_info["person"]["fullName"]
         year = user_info["student"]["currentYear"]
         email = user_info["contactInformation"]["emailAddress"]
@@ -121,7 +121,7 @@ def Oauth2_Login(request):
                 request.session["enrolment_no"] = enrolment_no
                 request.session["is_Member"] = is_Member
                 request.session["is_admin"] = user.is_superuser
-                return redirect("http://127.0.0.1:3000/")
+                return redirect("http://localhost:3000/projects/")
 
             except:
                 return Response("Not logged in successfully")
@@ -135,7 +135,7 @@ def Oauth2_Login(request):
 
 @api_view(["GET"])
 @authentication_classes([])  # Exclude authentication
-@permission_classes([])  # Exclude permission checks
+@permission_classes([AllowAny])  # Exclude permission checks
 def logout_direct(request):
     logout(request)
     return Response({"message": "LOGGED OUT SUCCESSFULLY"}, status=status.HTTP_200_OK)

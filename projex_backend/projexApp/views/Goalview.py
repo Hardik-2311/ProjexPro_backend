@@ -8,7 +8,7 @@ from projexApp.serializers import GoalSerializer
 class GoalDetail(viewsets.ModelViewSet):
     queryset = Goal.objects.all()
     serializer_class = GoalSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     lookup_url_kwarg = "id"
     http_method_names = ["get", "put", "patch", "delete", "post"]
 

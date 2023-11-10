@@ -5,10 +5,10 @@ from projexApp.models import Project
 class Task(models.Model):
     Task_name = models.CharField(max_length=150, unique=True)
     created_time = models.DateTimeField(auto_now_add=True)
-    project_id = models.ForeignKey(
-        Project, on_delete=models.CASCADE, related_name="tasks"
+    project= models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="tasks",null=True,blank=True
     )
     time_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"task: {self.Task_name}, in project: {self.project_id.project_name}"
+        return f"task: {self.Task_name}, in project: {self.project.project_name}"

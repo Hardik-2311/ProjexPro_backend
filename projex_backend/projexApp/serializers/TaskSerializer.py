@@ -5,4 +5,3 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = '__all__'
-        read_only_fields = ('created_time', 'time_added', 'project_id')
