@@ -5,7 +5,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
         fields = "__all__"
-        read_only_fields = ('commentor', 'goal_id')
+        read_only_fields = ('goal_id')
 
     def validate(self, data):       
         return data

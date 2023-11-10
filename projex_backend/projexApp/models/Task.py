@@ -11,4 +11,4 @@ class Task(models.Model):
     time_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"task: {self.Task_name}, in project: {self.project.project_name}"
+        return f"task: {self.Task_name}"
