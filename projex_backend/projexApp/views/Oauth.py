@@ -1,12 +1,12 @@
 from django.shortcuts import redirect
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 import requests
 from rest_framework.decorators import (
     api_view,
     permission_classes,
     authentication_classes,
 )
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout 
 from projexApp.models import *
 from projexApp.serializers import *
 from rest_framework import status
@@ -28,18 +28,18 @@ def login_direct(request):
 
 
 @api_view(["GET"])
-@permission_classes([AllowAny])
+@permission_classes([])
 def check_login(request):
-    content = {"Logged_In": False}
     print(request.COOKIES)
     if "sessionid" in request.COOKIES:
         username = request.session.get("username")
         user_info = User.objects.get(username=username)
         serializer = UserSerializer(user_info)
         data = serializer.data
-        content = {"Logged_In": True, "data": data}
-        return Response(content)
-    return Response(content)
+        return Response("logged in", {"data":data})
+    else:
+        
+        return Response("no session cookie")
 
 
 def Authentication(
@@ -67,7 +67,7 @@ def Authentication(
 
 @api_view(["GET"])
 @authentication_classes([])
-@permission_classes([AllowAny])
+@permission_classes([])
 def Oauth2_Login(request):
     try:
         auth_code = request.GET.get("code")
