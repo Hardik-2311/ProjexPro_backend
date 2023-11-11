@@ -6,7 +6,8 @@ from rest_framework.decorators import (
     permission_classes,
     authentication_classes,
 )
-from django.contrib.auth import login, logout 
+from django.http import JsonResponse
+from django.contrib.auth import login, logout
 from projexApp.models import *
 from projexApp.serializers import *
 from rest_framework import status
@@ -30,28 +31,30 @@ def login_direct(request):
 @api_view(["GET"])
 @permission_classes([])
 def check_login(request):
-    print(request.COOKIES)
+    # print(request.COOKIES)
     if "sessionid" in request.COOKIES:
         username = request.session.get("username")
+        # print(username)
         user_info = User.objects.get(username=username)
         serializer = UserSerializer(user_info)
         data = serializer.data
-        return Response("logged in", {"data":data})
+        # print("logged in")
+        return Response({"login": "true", "data": data})
     else:
-        
-        return Response("no session cookie")
+        # print("yuuuuuu")
+        return Response({"login": "false"})
 
 
 def Authentication(
-    username, enrolment_number, name, year, email, is_Member, is_superuser
+    username, enrolment_number, name, year, email, is_Member, profile_pic, is_superuser
 ):
-    print("here")
+    # print("here")
     try:
         user = User.objects.get(username=username)
         return user
 
     except User.DoesNotExist:
-        print("Not Exists")
+        # print("Not Exists")
         User.objects.create(
             username=username,
             name=name,
@@ -59,6 +62,7 @@ def Authentication(
             year=year,
             enrolment_no=enrolment_number,
             is_Member=is_Member,
+            profile_pic=profile_pic,
             is_superuser=is_superuser,
         )
         user = User.objects.get(username=username)
@@ -66,40 +70,40 @@ def Authentication(
 
 
 @api_view(["GET"])
-@authentication_classes([])
-@permission_classes([])
+@permission_classes([AllowAny])
 def Oauth2_Login(request):
     try:
         auth_code = request.GET.get("code")
-        parameters_data = {
+        params_post = {
             "client_id": CLIENT_ID,
             "client_secret": CLIENT_SECRET_ID,
             "grant_type": "authorization_code",
             "redirect_uri": REDIRECT_URI,
             "code": auth_code,
         }
-        response = requests.post(
-            "https://channeli.in/open_auth/token/", parameters_data
-        )
+        response = requests.post("https://channeli.in/open_auth/token/", params_post)
         access_token = response.json().get("access_token")
         token_type = response.json().get("token_type")
-        parameters = {"Authorization": f"{token_type} {access_token}"}
+        params_get = {"Authorization": f"{token_type} {access_token}"}
         response = requests.get(
-            "https://channeli.in/open_auth/get_user_data/", headers=parameters
+            "https://channeli.in/open_auth/get_user_data/", headers=params_get
         )
         user_info = response.json()
-        username = user_info["person"]["fullName"]
+        username = user_info["username"]
         name = user_info["person"]["fullName"]
         year = user_info["student"]["currentYear"]
         email = user_info["contactInformation"]["emailAddress"]
         enrolment_no = user_info["student"]["enrolmentNumber"]
+        profile_pic = (
+            "https://channeli.in/" + str(user_info["person"]["displayPicture"] or ""),
+        )
         is_superuser = False
+
         is_Member = False
         for i in user_info["person"]["roles"]:
             if i["role"] == "Maintainer":
                 is_Member = True
                 break
-        print("before going")
         if is_Member == True:
             try:
                 user = Authentication(
@@ -109,12 +113,12 @@ def Oauth2_Login(request):
                     year,
                     email,
                     is_Member,
+                    profile_pic,
                     is_superuser=is_superuser,
                 )
                 print(user)
             except:
-                print("user doent created")
-                return Response("unable to create user")
+                return Response("user cant be created")
             try:
                 login(request, user)
                 request.session["username"] = username
@@ -123,13 +127,13 @@ def Oauth2_Login(request):
                 request.session["email"] = email
                 request.session["enrolment_no"] = enrolment_no
                 request.session["is_Member"] = is_Member
+                request.session["profile_pic="] = profile_pic
                 request.session["is_admin"] = user.is_superuser
-                return redirect("http://localhost:3000/projects/")
-
+                return redirect("http://127.0.0.1:3000/projects/")
             except:
-                return Response("Not logged in successfully")
+                return Response("login nhi hua brother")
         else:
-            return Response("Not an IMG member")
+            return Response("who are you boyyyyy??")
 
     except:
         SITE = f'https://channeli.in/oauth/authorise/?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&state="Success/'

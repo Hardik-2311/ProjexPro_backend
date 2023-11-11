@@ -7,7 +7,7 @@ class Project(models.Model):
     description = models.CharField(max_length=300, null=True)
     wiki = models.CharField(max_length=150, default="IMG PROJECT")
     created_time = models.DateTimeField(auto_now_add=True)
-    project_members = models.ManyToManyField(User)
+    members = models.ManyToManyField(User)
     creator = models.ForeignKey(
         User, related_name="project_created", on_delete=models.SET_NULL, null=True
     )

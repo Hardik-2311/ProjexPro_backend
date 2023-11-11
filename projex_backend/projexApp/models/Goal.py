@@ -23,7 +23,5 @@ class Goal(models.Model):
         auto_now_add=False,
     )
 
-    finished_status = models.BooleanField(default=False)
-
     def __str__(self):
         return f"goal in {self.task_id} by {self.creator.username}"
