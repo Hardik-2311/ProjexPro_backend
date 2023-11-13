@@ -94,7 +94,7 @@ def Oauth2_Login(request):
         year = user_info["student"]["currentYear"]
         email = user_info["contactInformation"]["emailAddress"]
         enrolment_no = user_info["student"]["enrolmentNumber"]
-        profile_pic = user_info["person"]["displayPicture"]
+        profile_pic = 'https://channeli.in/' + str(user_info['person']['displayPicture'] or '')
         is_superuser = False
 
         is_Member = False
