@@ -2,12 +2,14 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from projexApp.models import Task
+from rest_framework.permissions import IsAuthenticated
 from projexApp.serializers import TaskSerializer
 
 class TaskDetailViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
+    
     lookup_url_kwarg = "id"
     http_method_names = ["get", "put", "patch", "delete", "post"]
 

@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
     lookup_field = 'username'
 
