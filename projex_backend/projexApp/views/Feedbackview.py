@@ -7,7 +7,7 @@ from rest_framework import status
 
 class FeedbackDetailViewSet(viewsets.ModelViewSet):
     queryset = Feedback.objects.all()
-    permission_classes = [IsAuthenticated]
+    
     serializer_class = FeedbackSerializer
 
     def create(self, request, *args, **kwargs):
