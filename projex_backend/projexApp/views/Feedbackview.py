@@ -1,11 +1,13 @@
 from rest_framework import viewsets
 from projexApp.models import Feedback
+from rest_framework.permissions import IsAuthenticated
 from projexApp.serializers import FeedbackSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
 class FeedbackDetailViewSet(viewsets.ModelViewSet):
     queryset = Feedback.objects.all()
+    
     serializer_class = FeedbackSerializer
 
     def create(self, request, *args, **kwargs):

@@ -1,16 +1,16 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from projexApp.permissions import onlyProjectView
 from projexApp.models import Goal
 from projexApp.serializers import GoalSerializer
 
 class GoalDetail(viewsets.ModelViewSet):
     queryset = Goal.objects.all()
     serializer_class = GoalSerializer
-    # permission_classes = [IsAuthenticated]
     lookup_url_kwarg = "id"
     http_method_names = ["get", "put", "patch", "delete", "post"]
+    permission_classes=[onlyProjectView]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
