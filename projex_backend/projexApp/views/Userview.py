@@ -2,12 +2,12 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from projexApp.models import User
 from projexApp.serializers import UserSerializer
-from rest_framework.authentication import SessionAuthentication
+from projexApp.permissions import onlyProjectView
 from rest_framework.permissions import IsAuthenticated
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,onlyProjectView]
     serializer_class = UserSerializer
     lookup_field = 'username'
 

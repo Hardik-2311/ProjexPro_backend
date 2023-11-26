@@ -14,4 +14,4 @@ class Project(models.Model):
 
 
 def is_member(self, username):
-    return self.project_members.filter(username=username).exists()
+    return self.members.filter(username=username).exists()
