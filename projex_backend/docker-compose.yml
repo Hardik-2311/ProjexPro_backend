@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    command: [ "sh", "./start.sh" ]
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres_db
+  postgres_db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/postgresql/data
+    environment:
+      POSTGRES_DB: projex_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hardik
+volumes:
+  postgres_data:

@@ -57,15 +57,16 @@ WSGI_APPLICATION = 'projex_backend.wsgi.application'
 
 ASGI_APPLICATION = "projex_backend.routing.application"
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "projex_db",
-        "USER": "postgres",
-        "PASSWORD": "hardik",
-        "HOST": "localhost",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'projex_db',
+        'USER': 'postgres',
+        'PASSWORD': 'hardik',
+        'HOST': 'postgres_db',
+        'PORT': '5432',
     }
 }
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -97,7 +98,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 
 
